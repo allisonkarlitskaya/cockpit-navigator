@@ -46,19 +46,23 @@ const compare = (sortBy) => {
         return Number(b.to === "dir") - Number(a.to === "dir");
     };
 
+    const name_sort = (a, b) => {
+        return a.name.localeCompare(b.name);
+    }
+
     switch (sortBy) {
     case "az":
-        return (a, b) => dir_sort(a, b) || a.name.localeCompare(b.name);
+        return (a, b) => dir_sort(a, b) || name_sort(a, b);
     case "za":
-        return (a, b) => dir_sort(a, b) || b.name.localeCompare(a.name);
+        return (a, b) => dir_sort(a, b) || name_sort(b, a);
     case "first_modified":
-        return (a, b) => dir_sort(a, b) || (a.mtime - b.mtime);
+        return (a, b) => dir_sort(a, b) || (a.mtime - b.mtime) || name_sort(a, b);
     case "last_modified":
-        return (a, b) => dir_sort(a, b) || (b.mtime - a.mtime);
+        return (a, b) => dir_sort(a, b) || (b.mtime - a.mtime) || name_sort(a, b);
     case "largest_size":
-        return (a, b) => dir_sort(a, b) || (b.size - a.size);
+        return (a, b) => dir_sort(a, b) || (b.size - a.size) || name_sort(a, b);
     case "smallest_size":
-        return (a, b) => dir_sort(a, b) || (a.size - b.size);
+        return (a, b) => dir_sort(a, b) || (a.size - b.size) || name_sort(a, b);
     default:
         break;
     }
